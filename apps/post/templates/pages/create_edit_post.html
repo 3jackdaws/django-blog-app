@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load rest_framework %}
+
+<div class="container">
+    <div id="messages"></div>
+    <form class="form" action="/api/posts/{{ post_serializer.id.value }}" method="{{ method }}" onsubmit="AjaxForm(event, HandleSubmitPost)">
+        {% render_form post_serializer %}
+        <button class="btn btn-primary">SUBMIT</button>
+    </form>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    window.addEventListener("load", function(){
+        $Messages = $("#messages");
+    });
+    function HandleSubmitPost(status, response){
+        let message = "";
+        switch(status){
+            case 200:
+                DisplayErrorMessages({'Post':"Updated Successfully!"}, 'alert-success');
+                setTimeout(_=>window.location = "/", 2000);
+                break;
+
+            case 400:
+                // for each field, display errors
+                DisplayErrorMessages(response);
+        }
+    }
+
+    function DisplayErrorMessages(errors, classname){
+
+        if(!classname) classname = 'alert-danger';
+
+        //I'm sorry about this
+        $Messages.html(`
+            <div class="alert ${classname}">
+                <ul>
+                    ${Object.keys(errors).map(k=>`<li>${k}: ${errors[k]}</li>`).join("")}
+                </ul>
+            </div>
+        `);
+    }
+</script>
+
+
+
+{% endblock %}

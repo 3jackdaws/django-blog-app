@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    environment:
+      SECRET_KEY: "(7n_^4b8$h+ed#&cwaj=fcsoxgn92s*^pcr8ky=!#i4*=zvr%x"
+
+
+  proxy:
+    build: docker/nginx/.
+    volumes:
+      - './docker/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf'
+      - './static:/static'
+    ports:
+      - '8000:80'
+    depends_on:
+      - web
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "this doesn't really matter because the database is local only"
