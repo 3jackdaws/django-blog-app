@@ -35,8 +35,9 @@
     function HandleSubmitPost(status, response){
         switch(status){
             case 200:
+                let postId = response.id;
                 DisplayErrorMessages({'Post':"Updated Successfully!"}, 'alert-success');
-                setTimeout(_=>window.location = "/", 2000);
+                setTimeout(_=>window.location = "/posts/"+postId, 2000);
                 break;
 
             case 400:
