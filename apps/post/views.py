@@ -21,7 +21,7 @@ def render_edit_blog_post(request, post_id=None):
 
     context = {
         'post_serializer':serializer,
-        'method':'put' if post else 'post'
+        'method':'put' if post else 'post',
     }
 
     return render(request, 'pages/create_edit_post.html', context)
@@ -29,7 +29,7 @@ def render_edit_blog_post(request, post_id=None):
 
 
 def render_blog_post(request, post_id):
-    post = get_object_or_404(Post.objects, id=post_id)
+    post = get_object_or_404(Post.objects.all(), id=post_id)
     context = {
         'post':post
     }

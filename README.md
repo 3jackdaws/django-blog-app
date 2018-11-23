@@ -18,4 +18,19 @@
 15. Run tests
 16. Realize PUT method doesn't behave correctly
 17. Fix PUT method
-18.
+18. Add some padding and max-width to containers
+19. Change timezone
+20. Change database to SQLite instead of postgres so that Docker and tandard deployments are the same
+
+
+## Deployment
+
+### Docker
+1.  `docker-compose up`
+
+### Standard/Non-Docker
+1.  Install python 3.6 or so
+2.  `pip install -r requirements.txt`
+3.  `./manage.py makemigrations`
+4.  `./manage.py migrate`
+5.  `./manage.py runserver`

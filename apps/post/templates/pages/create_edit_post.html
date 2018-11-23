@@ -4,11 +4,21 @@
 
 {% load rest_framework %}
 
-<div class="container">
+<div class="content container">
+    <h1>
+        {% if method == 'put' %}
+            Edit Post
+        {% else %}
+            Create Post
+        {% endif %}
+    </h1>
     <div id="messages"></div>
     <form class="form" action="/api/posts/{{ post_serializer.id.value }}" method="{{ method }}" onsubmit="AjaxForm(event, HandleSubmitPost)">
         {% render_form post_serializer %}
         <button class="btn btn-primary">SUBMIT</button>
+        {% if method == 'put' %}
+            <a href="/posts/{{ post_serializer.id.value }}" class="btn btn-secondary">CANCEL</a>
+        {% endif %}
     </form>
 </div>
 
@@ -21,8 +31,8 @@
     window.addEventListener("load", function(){
         $Messages = $("#messages");
     });
+
     function HandleSubmitPost(status, response){
-        let message = "";
         switch(status){
             case 200:
                 DisplayErrorMessages({'Post':"Updated Successfully!"}, 'alert-success');
